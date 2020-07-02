@@ -12,7 +12,7 @@ export const Tooltip = styled.div`
   object-fit: cover;
   width: 100%;
   display: flex;
-  opacity: 0;
+  opacity: ${({ fullWidth }) => (fullWidth ? 1 : 0)};
   justify-content: center;
   left: 0;
   bottom: 0;

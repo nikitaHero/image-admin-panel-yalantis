@@ -28,7 +28,7 @@ export default ({ data, onRemove, fullWidth }) => {
           <div className="card-image">
             <Image alt="i" src={data.url} />
 
-            <Tooltip position={data.tooltipPosition}>
+            <Tooltip position={data.tooltipPosition} fullWidth={fullWidth}>
               <TooltipMessage
                 fontWeight={700}
                 size={data.fontSize}
