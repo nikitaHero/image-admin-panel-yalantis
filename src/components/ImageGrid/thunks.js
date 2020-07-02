@@ -4,9 +4,12 @@ import { toastr } from "react-redux-toastr";
 
 //getting all image items
 
-export const getImages = () => {
+export const getImages = (loaderOff) => {
   return async (dispatch) => {
-    await actions.getImageRequest();
+    if (!loaderOff) {
+      await actions.getImageRequest();
+    }
+
     const data = [];
     try {
       await firebase
@@ -19,7 +22,9 @@ export const getImages = () => {
           });
         });
       await dispatch(actions.getImageSuccess(data));
-      await toastr.success("Success", "Image loading from server");
+      if (!loaderOff) {
+        await toastr.success("Success", "Image loading from server");
+      }
     } catch (err) {
       await dispatch(actions.getImageError(err.toString()));
       await toastr.error("Error", err.toString());

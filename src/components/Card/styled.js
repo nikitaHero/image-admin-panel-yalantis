@@ -24,9 +24,6 @@ export const Tooltip = styled.div`
     opacity: 1;
     transition: 500ms;
   }
-  @media(max-width:991px){
-    opacity:1;
-  }
 `;
 
 export const TooltipMessage = styled.div`

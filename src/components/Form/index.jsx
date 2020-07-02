@@ -7,6 +7,9 @@ import { addImage, updateImage, getImage } from "./thunks";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 
+import Card from "../Card";
+import { PrevievWrapper } from "./styled";
+
 const Form = ({ addImage, imageUploadData, updateImage, getImage }) => {
   //state
   const [tooltip, setTooltip] = useState("Set image tooltip");
@@ -101,141 +104,160 @@ const Form = ({ addImage, imageUploadData, updateImage, getImage }) => {
     }
   };
   return (
-    <div className="row">
+    <div className="row flex">
+      <PrevievWrapper>
+        <Card
+          fullWidth
+          data={{
+            url: image,
+            tooltip,
+            tooltipPosition,
+            textPosition,
+            textColor,
+            fontSize,
+            id,
+          }}
+          onRemove={() => console.log("1")}
+        />
+      </PrevievWrapper>
       <div className="row">
-        <h4 className="center">{id ? "Update " : "Add "}image with tooltip</h4>
-      </div>
-      <form className="col s12" action="#">
         <div className="row">
-          <h6>Image</h6>
-          <div className="file-field input-field">
-            <div className="btn">
-              <span>File</span>
-              <input
-                onChange={(e) => _handleAddImage(e.target.files[0])}
-                type="file"
-              />
+          <h4 className="center">
+            {id ? "Update " : "Add "}image with tooltip
+          </h4>
+        </div>
+        <form className="col s12" action="#">
+          <div className="row">
+            <h6>Image</h6>
+            <div className="file-field input-field">
+              <div className="btn">
+                <span>File</span>
+                <input
+                  onChange={(e) => _handleAddImage(e.target.files[0])}
+                  type="file"
+                />
+              </div>
+              <div className="file-path-wrapper">
+                <input
+                  className="file-path validate"
+                  type="text"
+                  placeholder="file name"
+                />
+              </div>
             </div>
-            <div className="file-path-wrapper">
+          </div>
+
+          <div className="row">
+            <div className="input-field col s12">
               <input
-                className="file-path validate"
                 type="text"
-                placeholder="file name"
+                className="validate"
+                value={tooltip}
+                onChange={(e) => _handleSetTooltip(e)}
+                name="tooltip-input"
               />
+              <label htmlFor="tooltip-input" className="active">
+                Tooltip
+              </label>
             </div>
           </div>
-        </div>
 
-        <div className="row">
-          <div className="input-field col s12">
-            <input
-              type="text"
-              className="validate"
-              value={tooltip}
-              onChange={(e) => _handleSetTooltip(e)}
-              name="tooltip-input"
-            />
-            <label htmlFor="tooltip-input" className="active">
-              Tooltip
-            </label>
+          <div className="row">
+            <h6>Tooltip position</h6>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTooltipPosition("flex-start")}
+                  checked={tooltipPosition === "flex-start"}
+                />
+                <span>Top</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTooltipPosition("center")}
+                  checked={tooltipPosition === "center"}
+                />
+                <span>Center</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTooltipPosition("flex-end")}
+                  checked={tooltipPosition === "flex-end"}
+                />
+                <span>Bottom</span>
+              </label>
+            </p>
           </div>
-        </div>
-
-        <div className="row">
-          <h6>Tooltip position</h6>
-          <p>
-            <label>
+          <div className="row">
+            <div className="input-field col s12">
               <input
-                type="radio"
-                onChange={() => setTooltipPosition("flex-start")}
-                checked={tooltipPosition === "flex-start"}
+                name="font-input"
+                type="number"
+                min="1"
+                value={fontSize}
+                className="validate"
+                onChange={(e) => _handleSetFontSize(e.target.value)}
               />
-              <span>Top</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                type="radio"
-                onChange={() => setTooltipPosition("center")}
-                checked={tooltipPosition === "center"}
-              />
-              <span>Center</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                type="radio"
-                onChange={() => setTooltipPosition("flex-end")}
-                checked={tooltipPosition === "flex-end"}
-              />
-              <span>Bottom</span>
-            </label>
-          </p>
-        </div>
-        <div className="row">
-          <div className="input-field col s12">
-            <input
-              name="font-input"
-              type="number"
-              min="1"
-              value={fontSize}
-              className="validate"
-              onChange={(e) => _handleSetFontSize(e.target.value)}
-            />
-            <label htmlFor="font-input" className="active">
-              Font size (px) min 1
-            </label>
+              <label htmlFor="font-input" className="active">
+                Font size (px) min 1
+              </label>
+            </div>
           </div>
-        </div>
+          <div className="row">
+            <h6>Text alignment</h6>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTextPosition("left")}
+                  checked={textPosition === "left"}
+                />
+                <span>Left</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTextPosition("center")}
+                  checked={textPosition === "center"}
+                />
+                <span>Center</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input
+                  type="radio"
+                  onChange={() => setTextPosition("right")}
+                  checked={textPosition === "right"}
+                />
+                <span>Right</span>
+              </label>
+            </p>
+          </div>
+        </form>
         <div className="row">
-          <h6>Text alignment</h6>
-          <p>
-            <label>
-              <input
-                type="radio"
-                onChange={() => setTextPosition("left")}
-                checked={textPosition === "left"}
-              />
-              <span>Left</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                type="radio"
-                onChange={() => setTextPosition("center")}
-                checked={textPosition === "center"}
-              />
-              <span>Center</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                type="radio"
-                onChange={() => setTextPosition("right")}
-                checked={textPosition === "right"}
-              />
-              <span>Right</span>
-            </label>
-          </p>
+          <h6>Text color</h6>
+          <TwitterPicker color={textColor} onChange={_handleChangeColor} />
         </div>
-      </form>
-      <div className="row">
-        <h6>Text color</h6>
-        <TwitterPicker color={textColor} onChange={_handleChangeColor} />
-      </div>
-      <div className="row center">
-        <button
-          className="btn btn-large waves-effect waves-light"
-          type="submit"
-          onClick={_handleSubmit}
-        >
-          Submit
-          <i className="material-icons right">send</i>
-        </button>
+        <div className="row center">
+          <button
+            className="btn btn-large waves-effect waves-light"
+            type="submit"
+            onClick={_handleSubmit}
+          >
+            Submit
+            <i className="material-icons right">send</i>
+          </button>
+        </div>
       </div>
     </div>
   );
